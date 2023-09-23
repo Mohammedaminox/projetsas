@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdbool.h>  /* for while loop */
 int Ntaches;
-int nbrTaches;
+int nbrTaches=0;
+int nbrComple=0;
 
 struct deadline
 {
@@ -19,10 +20,11 @@ struct todoList
     struct deadline delai;
     int sta;
 };
-    struct todoList taches[100];
-      int Ntaches = 0;
+struct todoList taches[100];
+int Ntaches = 0;
 
-void addTache(){
+void addTache()
+{
     struct todoList nvtache;
     nvtache.ident = Ntaches + 1;
 
@@ -49,20 +51,23 @@ void addTache(){
 
     taches[Ntaches] = nvtache;
 
+
 }
 
 
-void printTache(){
+void printTache()
+{
 
 
- for (int i = 0; i < Ntaches; i++)
+    for (int i = 0; i < Ntaches; i++)
     {
         printf("-----TACHE NUMERO :%d-----\n",i+1);
         printf("| Identifiant : %d\n", taches[i].ident);
         printf("| titre : %s\n", taches[i].titre);
         printf("| description : %s\n", taches[i].description);
         printf("| deadline :     year: %d     month: %d     day: %d\n", taches[i].delai.year, taches[i].delai.month, taches[i].delai.day);
-        switch(taches[i].sta){
+        switch(taches[i].sta)
+        {
         case 1:
             printf("| statut :1- Todo\n");
             break;
@@ -77,51 +82,54 @@ void printTache(){
             break;
 
         }
-        /*printf("statut : %s\n", taches[i].sta);*/
+
         printf("-----TACHE NUMERO :%d-----\n",i+1);
         printf("\n\n");
+
 
     }
 
 }
-
 // Fonction pour trier les tâches par titre (tri à bulles)
-void triparAlpha() {
+void triparAlpha()
+{
     struct todoList tittri;
-    for (int i = 0; i < Ntaches - 1; i++) {
-        for (int j = 0; j < Ntaches - i - 1; j++) {
-            if (strcmp(taches[j].titre, taches[j + 1].titre) > 0) {
+    for (int i = 0; i < Ntaches - 1; i++)
+    {
+        for (int j = 0; j < Ntaches - i - 1; j++)
+        {
+            if (strcmp(taches[j].titre, taches[j + 1].titre) > 0)
+            {
                 tittri = taches[j];
                 taches[j] = taches[j + 1];
                 taches[j + 1] = tittri;
             }
         }
     }
-    printf("Tâches triées par titre.\n");
+    printf("taches trier par titre\n");
 }
-
-
-
-
-
-void modifTache() {
+void modifTache()
+{
     int identmodif;
     printf("Entrer l'identifiant de la tache que vous voulez modifier :");
     scanf("%d", &identmodif);
 
     // Search for the task with the specified identifier
 
-for (int i = 0; i < Ntaches; i++){
-    if ((taches[i].ident == identmodif)) {
-        int achnbdl;
-        printf("Qu'est-ce que vous voulez modifier :\n");
-        printf("1 - La description\n");
-        printf("2 - Le statut\n");
-        printf("3 - Le deadline\n");
-        printf("Votre choix : ");
-        scanf("%d", &achnbdl);
+    for (int i = 0; i < Ntaches; i++)
+    {
+        if ((taches[i].ident == identmodif))
+        {
+            int achnbdl;
+            printf("Qu'est-ce que vous voulez modifier :\n");
+            printf("1 - La description\n");
+            printf("2 - Le statut\n");
+            printf("3 - Le deadline\n");
+            printf("Votre choix : ");
+            scanf("%d", &achnbdl);
 
-        switch (achnbdl) {
+            switch (achnbdl)
+            {
             case 1:
                 printf("Modifier la description : ");
                 scanf(" %[^\n]s", taches[i].description);
@@ -142,28 +150,149 @@ for (int i = 0; i < Ntaches; i++){
             default:
                 printf("Choix non trouver\n");
                 break;
+            }
         }
-    } else {
-        printf("tache avec lidentifiant %d non trouver.\n", identmodif);
+        else
+        {
+            printf("tache avec lidentifiant %d non trouver.\n", identmodif);
+        }
     }
 }
- }
-
-
-
-void suppTache(){
+void suppTache()
+{
     int identsupp;
     printf("Entrer l'identifiant de la tache que vous voulez supprimer :");
     scanf("%d", &identsupp);
-    for (int i = 0; i < Ntaches; i++){
-    if ((taches[i].ident == identsupp)){
+    for (int i = 0; i < Ntaches; i++)
+    {
+        if ((taches[i].ident == identsupp))
+        {
+
+            for (int j=i; j < Ntaches-1; j++)
+            {
+                taches[j]=taches[j+1];
+            }
+
+            Ntaches--;
+
+        }
+
+    }
+
+
+}
+void searchTache()
+{
+    int choixcherche;
+    int identcherche;
+    char titrecherche[30];
+    printf("Par quoi vous voulez acceder a la tache que vous chercher (1-identifiant 2-titre):");
+    scanf("%d", &choixcherche);
+    switch(choixcherche)
+    {
+    case 1:
+        printf("enter identifiant :");
+        scanf("%d",&identcherche);
+        for (int i = 0; i < Ntaches; i++)
+        {
+            if ((taches[i].ident == identcherche))
+            {
+
+                printf("-----TACHE NUMERO :%d-----\n",i+1);
+                printf("| Identifiant : %d\n", taches[i].ident);
+                printf("| titre : %s\n", taches[i].titre);
+                printf("| description : %s\n", taches[i].description);
+                printf("| deadline :     year: %d     month: %d     day: %d\n", taches[i].delai.year, taches[i].delai.month, taches[i].delai.day);
+                switch(taches[i].sta)
+                {
+                case 1:
+                    printf("| statut :1- Todo\n");
+                    break;
+                case 2:
+                    printf("| statut :2- Doing\n");
+                    break;
+                case 3:
+                    printf("| statut :3- Done\n");
+                    break;
+                default:
+                    printf("| statut :non trouver\n");
+                    break;
+
+                }
+
+                printf("-----TACHE NUMERO :%d-----\n",i+1);
+                printf("\n\n");
+
+            }
+        }
+
+
+
+        break;
+    case 2:
+        printf("enter le titre :");
+        scanf(" %[^\n]s",&titrecherche);
+        for (int i = 0; i < Ntaches; i++)
+        {
+            if (strcmp(taches[i].titre, titrecherche) == 0)
+            {
+
+                printf("-----TACHE NUMERO :%d-----\n",i+1);
+                printf("| Identifiant : %d\n", taches[i].ident);
+                printf("| titre : %s\n", taches[i].titre);
+                printf("| description : %s\n", taches[i].description);
+                printf("| deadline :     year: %d     month: %d     day: %d\n", taches[i].delai.year, taches[i].delai.month, taches[i].delai.day);
+                switch(taches[i].sta)
+                {
+                case 1:
+                    printf("| statut :1- Todo\n");
+                    break;
+                case 2:
+                    printf("| statut :2- Doing\n");
+                    break;
+                case 3:
+                    printf("| statut :3- Done\n");
+                    break;
+                default:
+                    printf("| statut :non trouver\n");
+                    break;
+
+                }
+
+                printf("-----TACHE NUMERO :%d-----\n",i+1);
+                printf("\n\n");
+
+            }
+        }
+
+        break;
+    default:
+        printf("Choix non trouver\n");
+        break;
+
+
 
 
     }
 
+
 }
-void searchTache(){}
-void statisticTache(){}
+void statisticTache()
+{
+    int nbrIncomple=0;
+    nbrTaches=Ntaches;
+    for (int i = 0; i < Ntaches; i++){
+    if(taches[i].sta==3){
+        nbrComple++;
+    }else{
+        nbrIncomple++;
+    }
+}
+    printf("le total des taches est : %d\n",nbrTaches);
+    printf("le total des taches compler est : %d\n",nbrComple);
+    printf("le total des taches incomple est : %d\n",nbrIncomple);
+
+}
 
 
 
@@ -172,23 +301,21 @@ void statisticTache(){}
 
 
 
-int main() {
+int main()
+{
 
 
-    printf("               ___  ___ _____ _   _ _   _ \n");
-    printf("               |  \\/  ||  ___| \\ | | | | |\n");
-    printf("               | .  . || |__ |  \\| | | | |\n");
-    printf("               | |\\/| ||  __|| . ` | | | |\n");
-    printf("               | |  | || |___| |\\  | |_| |\n");
-    printf("               \\_|  |_/\\____/\\_| \\_/\\___/\n");
-
-
-
-
+    printf("                       ___  ___ _____ _   _ _   _ \n");
+    printf("                       |  \\/  ||  ___| \\ | | | | |\n");
+    printf("                       | .  . || |__ |  \\| | | | |\n");
+    printf("                       | |\\/| ||  __|| . ` | | | |\n");
+    printf("                       | |  | || |___| |\\  | |_| |\n");
+    printf("                       \\_|  |_/\\____/\\_| \\_/\\___/\n");
 
     int choix;
 
-    while (true) {
+    while (true)
+    {
 
         printf("\n                     1) -----------Ajouter une nouvelle tache----------------");
         printf("\n                     2) -----------Ajouter plusieurs nouvelles taches--------");
@@ -200,7 +327,8 @@ int main() {
         printf("\n\n           VEUILLEZ ENTER VOTRE CHOIX :");
         scanf("%d",&choix);
 
-        switch(choix){
+        switch(choix)
+        {
 
         case 1:
             addTache(taches,Ntaches);
@@ -229,20 +357,25 @@ int main() {
             break;
         case 5:
             printf("5) Supprimer une tache par identifiant\n");
+            suppTache();
             break;
         case 6:
-            printf("6) -echercher les taches\n");
+            printf("6) Rechercher les taches\n");
+            searchTache();
             break;
         case 7:
-            printf("7) tatistiques\n");
+            printf("7) Statistiques\n");
+            statisticTache();
             break;
         default:
-            printf("vous avez entrer la fause command\n");
-            }
-
-
-            system("pause");
+            printf("vous avez entre une commande incorrecte.\n");
+        }
+        printf("\nAppuyez sur une touche pour continuer...");
+        getchar();
+        getchar();
     }
+
+
 
 
 
@@ -250,3 +383,4 @@ int main() {
 
     return 0;
 }
+
